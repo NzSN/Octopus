@@ -1,0 +1,10 @@
+#+TITLE: Octopus Designdoc
+
+
+* Overview
+A framework to enble ability to easy to use massive of machines in an easy, reliable, programmalbe way. Programmable means you are able to control remote machine by instructions on the fly.
+
+* Objective
++ Control machines by scripts
++ Directly control machine by issue command on the fly
++ Resource control
