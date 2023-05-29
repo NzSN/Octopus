@@ -11,6 +11,7 @@ filegroup(
 cc_test(
     name = "network-test",
     srcs = [
+         ":network-srcs",
          "network-unittests.cc"
     ],
     copts = ["-std=c++2a"],
