@@ -24,3 +24,10 @@ http_archive(
 load("@rules_foreign_cc//foreign_cc:repositories.bzl", "rules_foreign_cc_dependencies")
 
 rules_foreign_cc_dependencies()
+
+# Local Repository
+new_local_repository(
+    name = "folly",
+    path = "third_party/folly",
+    build_file = "third_party/BUILDS/BUILD.folly"
+)

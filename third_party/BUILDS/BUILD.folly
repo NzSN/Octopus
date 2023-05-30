@@ -1,0 +1,9 @@
+
+
+genrule(
+    name = "folly",
+    srcs = glob(["**"]),
+    outs = ["libfolly.a"],
+    cmd = "(cd external/folly; python3 ./build/fbcode_builder/getdeps.py \
+          --allow-system-packages build --install-dir=/tmp); mv /tmp/lib/libfolly.a \"$@\" "
+)
