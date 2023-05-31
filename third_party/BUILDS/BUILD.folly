@@ -9,4 +9,6 @@ cmake(
     name = "folly",
     lib_source = ":folly_sources",
     out_static_libs = ["libfolly.a"],
+    out_include_dir = "include",
+    visibility = ["//visibility:public"]
 )

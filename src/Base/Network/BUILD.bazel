@@ -1,19 +1,19 @@
 
 
 filegroup(
-    name = "network-srcs",
+    name = "network_srcs",
     srcs = [
         "network.h",
         "network.cc",
-    ]
+    ],
+    visibility = ["//src/Base:__subpackages__"]
 )
 
-cc_test(
-    name = "network-test",
+filegroup(
+    name = "network_tests_srcs",
     srcs = [
-         ":network-srcs",
-         "network-unittests.cc"
+        "network_unittests.cc",
+        ":network_srcs",
     ],
-    copts = ["-std=c++2a"],
-    deps = ["@com_google_googletest//:gtest_main"],
+    visibility = ["//src/Base:__subpackages__"]
 )
