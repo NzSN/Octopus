@@ -1,9 +1,12 @@
 
 
 cc_test(
-    name = "base_tests",
-    srcs = ["//src/Base/Network:network_tests_srcs"],
-    copts = ["-std=c++2a"],
+    name = "base_unittests",
+    srcs = [
+         "//src/Base/Network:network_tests_srcs",
+         "utility.hh",
+    ],
+    copts = ["-std=c++2a", "-Isrc"],
     deps = [
          "@com_google_googletest//:gtest_main",
          "@folly//:folly"

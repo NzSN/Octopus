@@ -3,7 +3,7 @@
 filegroup(
     name = "network_srcs",
     srcs = [
-        "network.h",
+        "network.hh",
         "network.cc",
     ],
     visibility = ["//src/Base:__subpackages__"]
