@@ -1,9 +1,12 @@
+load("@rules_foreign_cc//foreign_cc:defs.bzl", "cmake")
 
-
-genrule(
-    name = "folly",
+filegroup(
+    name = "folly_sources",
     srcs = glob(["**"]),
-    outs = ["libfolly.a"],
-    cmd = "(cd external/folly; python3 ./build/fbcode_builder/getdeps.py \
-          --allow-system-packages build --install-dir=/tmp); mv /tmp/lib/libfolly.a \"$@\" "
+)
+
+cmake(
+    name = "folly",
+    lib_source = ":folly_sources",
+    out_static_libs = ["libfolly.a"],
 )
