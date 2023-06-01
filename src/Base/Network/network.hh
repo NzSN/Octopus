@@ -19,15 +19,13 @@ concept NetworkTerminalImpl = requires(T t) {
 template<NetworkTerminalImpl T>
 class NetworkTerminalBase {
 public:
-protected:
-    NetworkTerminalBase() = default;
-
     #define NetworkInterfaces(V) \
         V(size_t, send, T) \
         V(size_t, recv, T)
     NetworkInterfaces(CRTP_METHOD_DEFINE)
     #undef NetworkInterfaces
-
+protected:
+    NetworkTerminalBase() = default;
 private:
     UNCOPYABLE(NetworkTerminalBase);
 };
