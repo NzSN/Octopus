@@ -1,3 +1,4 @@
+#include <stdexcept>
 
 #ifndef UTILITY_H
 #define UTILITY_H
@@ -10,7 +11,11 @@
 
 #define CRTP_METHOD_DEFINE(R, NAME, T) \
     R NAME() {\
-        static_cast<T*>(this)->NAME##Impl(); \
+        return static_cast<T*>(this)->NAME##Impl(); \
     }
+
+struct Undefined {
+    Undefined() { throw std::runtime_error("Undefined"); }
+};
 
 #endif /* UTILITY_H */

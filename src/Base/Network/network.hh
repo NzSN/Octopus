@@ -17,10 +17,10 @@ concept NetworkTerminalImpl = requires(T t) {
     { t.recv() } -> std::same_as<size_t>; };
 
 template<NetworkTerminalImpl T>
-class NetworkTerminal_ {
+class NetworkTerminalBase {
 public:
 protected:
-    NetworkTerminal_() = default;
+    NetworkTerminalBase() = default;
 
     #define NetworkInterfaces(V) \
         V(size_t, send, T) \
@@ -29,7 +29,7 @@ protected:
     #undef NetworkInterfaces
 
 private:
-    UNCOPYABLE(NetworkTerminal_);
+    UNCOPYABLE(NetworkTerminalBase);
 };
 
 using NetworkTerminal = std::variant<Undefined>;
@@ -47,7 +47,7 @@ concept NetworkImpl = requires(T t) {
  *   Each node of |Network| must be able to communicate directly with
  *   each of another nodes within |Network|. */
 template<NetworkImpl T>
-class Network {
+class NetworkBase {
 public:
     #define NetworkInterfaces(V) \
         V(std::optional<NetworkTerminal>, asCoordinator, T) \
@@ -55,10 +55,12 @@ public:
     NetworkInterfaces(CRTP_METHOD_DEFINE)
     #undef NetworkInterfaces
 protected:
-    Network() = default;
+    NetworkBase() = default;
 private:
-    UNCOPYABLE(Network);
+    UNCOPYABLE(NetworkBase);
 };
+
+using Network = std::variant<Undefined>;
 
 
 } // Network
