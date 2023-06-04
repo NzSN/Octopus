@@ -10,3 +10,14 @@ A framework to enble ability to easy to use massive of machines in an easy, reli
 + Resource control
 
 * Designs
+Main concepts are:
+
++ Scheduler
++ Commander
++ Executor
+
+Scheduler is a role to make decisions about how those resources to be used, such as which type of executor and how much of such executor to handle a request, and which commander to perform instructions to handle the request.
+
+Commander interpret instructions of instruction array sended by Scheduler then issue messages to Executor. Executor is where actual works perform to resolve a request.
+
+Commander can not only perfrom instruction from Scheduler but also from Client directly, which means you are able to massive of machine in real-time manner.

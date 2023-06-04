@@ -5,6 +5,8 @@ filegroup(
     srcs = [
         "network.hh",
         "network.cc",
+        "terminal.hh",
+        "terminal.cc",
     ],
     visibility = ["//src/Base:__subpackages__"]
 )
