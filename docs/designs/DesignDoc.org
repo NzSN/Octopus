@@ -1,4 +1,5 @@
 #+TITLE: Octopus Designdoc
+#+STARTUP: inlineimages
 
 
 * Overview
@@ -9,15 +10,37 @@ A framework to enble ability to easy to use massive of machines in an easy, reli
 + Directly control machine by issue command at real time manner.
 + Resource control
 
-* Designs
+* Architecture
 Main concepts are:
 
 + Scheduler
 + Commander
 + Executor
 
-Scheduler is a role to make decisions about how those resources to be used, such as which type of executor and how much of such executor to handle a request, and which commander to perform instructions to handle the request.
+Scheduler is a role to make decisions about how those resources to be used, such as which type of executor and how many of such executors to handle a request, and which commander to perform instructions to handle the request.
 
 Commander interpret instructions of instruction array sended by Scheduler then issue messages to Executor. Executor is where actual works perform to resolve a request.
 
 Commander can not only perfrom instruction from Scheduler but also from Client directly, which means you are able to massive of machine in real-time manner.
+
+[[file:~/Notes/Concepts/figures/Octopus/Design/Design.png]]
+
+As shown in figures *Scheduler* to which selected *Commander* and *Executor* to perform requests and also it like a interpreter analyze request from Client.
+
+The key points wouble be
+
++ Presentation of request and how it be interpreted
++ How program execute by *Commander* and *Executor*
++ How such network be build from the begining
+
+Those questions will be covered in the following sections.
+
+* Presentation of request
+Request is more like a script that describe how executor to perfrom so it need a language. We have two choices
+
+1. Create a DSL
+2. Embed existing language.
+
+I choose the second one, which can is more easy. I able to build my language semantics base on the existing semantics of the languate. One more advantage is use existing language can let more people to be easy to use it.
+
+[[file:~/Notes/Concepts/figures/Octopus/Design/request_represent.png]]
