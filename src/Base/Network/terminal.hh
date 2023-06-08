@@ -16,8 +16,6 @@ concept NetworkTerminalIFace = requires(T t) {
 
 class NetworkTerminalBase {
 public:
-
-protected:
     NetworkTerminalBase() = default;
 };
 
