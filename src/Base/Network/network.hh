@@ -27,20 +27,12 @@ enum NetworkStat {
     STAT_COUNT,
 };
 
-template<typename T>
-concept NetworkDelegate = requires(T t) {
-    { t.Up() } -> std::same_as<bool>;
-    { t.Down() } -> std::same_as<bool>;
-    { t.IsUp() } -> std::same_as<bool>;
-    { t.GetTerminal() } -> std::same_as<std::optional<NetworkTerminal>>;
-};
-
 /* An abstraction that represent networks for specific purposes,
  * e.g. monitor network or executor network. This abstraction only force all
  * it's implementation to involve two entities:
  *  1. Coordinator
  *  2. Worker */
-template<NetworkDelegate N>
+template<NetworkTerminalIFace N>
 class Network {
 public:
     Network(N net): delegate_(net) {};
@@ -79,8 +71,19 @@ public:
         workers_.push_back(entry);
     }
 
+    bool Up() {
+
+    }
+
+    bool Down() {}
+
+    class Delegate {
+    public:
+
+    };
+
 private:
-    N delegate_;
+    Delegate delegate_;
     NetworkStat stat_;
 
     std::optional<NetworkTerminal> coordinator_;
