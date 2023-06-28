@@ -1,5 +1,6 @@
 #include <string>
 #include <stdexcept>
+#include <concepts>
 
 #ifndef UTILITY_H
 #define UTILITY_H
@@ -21,6 +22,11 @@ struct Undefined: public Bottom {
 };
 struct ImplPending: public Bottom {
     ImplPending(): Bottom("Pending to implement...") {}
+};
+
+template<typename T>
+concept SerializableT = requires(T t) {
+    { t.serialize() } -> std::same_as<std::string>;
 };
 
 #endif /* UTILITY_H */

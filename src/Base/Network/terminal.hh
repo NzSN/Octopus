@@ -4,20 +4,17 @@
 
 #include <concepts>
 #include <variant>
+#include <string>
+
 #include "Base/utility.hh"
 
 namespace Octopus {
 namespace Network {
 
 template<typename T>
-concept NetworkTerminalIFace = requires(T t) {
-    { t.send() } -> std::same_as<size_t>;
-    { t.recv() } -> std::same_as<size_t>; };
-
-class NetworkTerminalBase {
-public:
-    NetworkTerminalBase() = default;
-};
+concept NetworkTerminalT = requires(T t, std::string m) {
+    { t.send(m) } -> std::same_as<bool>;
+    { t.recv() } -> std::same_as<std::string>; };
 
 using NetworkTerminal = std::variant<ImplPending>;
 

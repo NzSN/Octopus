@@ -2,6 +2,8 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include <iostream>
+#include <memory>
 #include <vector>
 #include <concepts>
 #include <optional>
@@ -9,6 +11,7 @@
 #include "Base/utility.hh"
 
 #include "Base/Network/terminal.hh"
+#include "Base/Network/Message/Message.hh"
 
 namespace Octopus {
 namespace Network {
@@ -32,14 +35,24 @@ enum NetworkStat {
  * it's implementation to involve two entities:
  *  1. Coordinator
  *  2. Worker */
-template<NetworkTerminalIFace N>
+template<NetworkTerminalT N>
 class Network {
 public:
-    Network(N net): delegate_(net) {};
+    struct Delegate {
+        virtual bool Up() = 0;
+        virtual bool Down() = 0;
+        virtual bool IsUp() = 0;
+        virtual N GetTerminal() = 0;
 
-    static Network Create(N impl) {
-        Network net {impl};
-        net.stat_ = impl.Up() ? NetworkStat::UP : NetworkStat::DOWN;
+        virtual ~Delegate() {}
+    };
+
+    Network() = default;
+    Network(Delegate* net): delegate_(net) {};
+
+    static std::unique_ptr<Network> Create(Delegate* impl) {
+        std::unique_ptr<Network> net = std::make_unique<Network>(impl);
+        net->stat_ = impl->Up() ? NetworkStat::UP : NetworkStat::DOWN;
         return net;
     }
 
@@ -49,45 +62,41 @@ public:
         return delegate_->IsUp() ? NetworkStat::UP : NetworkStat::DOWN;
     }
 
-    bool IsCoordinator(NetworkTerminal nt) {
-        return  coordinator_.has_value() ?
-            nt == coordinator_ : false;
+    bool IsCoordinator(N nt) {
+        return coordinator_.has_value();
     }
 
-    bool IsWorker(NetworkTerminal nt) {
+    bool IsWorker(N nt) {
         return !IsCoordinator(nt);
     }
 
     /* There should only a unique Coordinator within a network. */
-    std::optional<NetworkTerminal> AsCoordinator() {
+    std::optional<N> AsCoordinator() {
         coordinator_ = delegate_->GetTerminal();
     }
 
     /* Once a worker created it will broadcast to network to search
      * for the address of Coordinator. */
-    std::optional<NetworkTerminal> AsWorker() {
-        NetworkTerminal entry = delegate_->GetTerminal();
+    std::optional<N> AsWorker() {
+        N entry = delegate_->GetTerminal();
 
         workers_.push_back(entry);
     }
 
     bool Up() {
-
+        return true;
     }
 
-    bool Down() {}
-
-    class Delegate {
-    public:
-
-    };
+    bool Down() {
+        return false;
+    }
 
 private:
-    Delegate delegate_;
+    std::unique_ptr<Delegate> delegate_;
     NetworkStat stat_;
 
-    std::optional<NetworkTerminal> coordinator_;
-    std::vector<NetworkTerminal> workers_;
+    std::optional<N> coordinator_;
+    std::vector<N> workers_;
 
 };
 
