@@ -4,7 +4,7 @@ cc_test(
     name = "base_unittests",
     srcs = [
          "//src/Base/Network:network_tests_srcs",
-         "utility.hh",
+         "utility.h",
     ],
     copts = ["-std=c++2a", "-Isrc"],
     linkopts = ["-lglog", "-lfmt"],

@@ -3,11 +3,11 @@
 filegroup(
     name = "network_srcs",
     srcs = [
-        "network.hh",
+        "network.h",
         "network.cc",
-        "terminal.hh",
+        "terminal.h",
         "terminal.cc",
-        "Message/Message.hh",
+        "Message/Message.h",
     ],
     visibility = ["//src/Base:__subpackages__"]
 )

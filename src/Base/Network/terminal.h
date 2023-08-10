@@ -6,7 +6,7 @@
 #include <variant>
 #include <string>
 
-#include "Base/utility.hh"
+#include "Base/utility.h"
 
 namespace Octopus {
 namespace Network {

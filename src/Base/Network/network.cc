@@ -1,4 +1,4 @@
-#include "network.hh"
+#include "network.h"
 
 namespace Octopus {
 namespace Network {

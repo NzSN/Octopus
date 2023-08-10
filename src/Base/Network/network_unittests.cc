@@ -1,7 +1,7 @@
 #include <concepts>
 #include <memory>
 #include <gtest/gtest.h>
-#include "Base/Network/network.hh"
+#include "Base/Network/network.h"
 
 namespace Octopus {
 namespace Network {

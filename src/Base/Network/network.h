@@ -8,10 +8,10 @@
 #include <concepts>
 #include <optional>
 #include <variant>
-#include "Base/utility.hh"
+#include "Base/utility.h"
 
-#include "Base/Network/terminal.hh"
-#include "Base/Network/Message/Message.hh"
+#include "Base/Network/terminal.h"
+#include "Base/Network/Message/Message.h"
 
 namespace Octopus {
 namespace Network {
