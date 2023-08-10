@@ -12,7 +12,7 @@ namespace Octopus {
 namespace Network {
 
 template<typename T>
-concept NetworkTerminalT = requires(T t, std::string m) {
+concept Terminal = requires(T t, std::string m) {
     { t.send(m) } -> std::same_as<bool>;
     { t.recv() } -> std::same_as<std::string>; };
 

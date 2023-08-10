@@ -15,13 +15,16 @@ struct TestNetworkDelegate: public Network<TestTerminal>::Delegate {
   bool Up() final { return true; };
   bool Down() final { return true; };
   bool IsUp() final { return true; }
-  TestTerminal GetTerminal() final { return TestTerminal(); };
+  std::unique_ptr<TestTerminal> GetTerminal() final {
+    return std::make_unique<TestTerminal>();
+  };
 };
 
 
 struct GenericNetworkTest: ::testing::Test {
   void SetUp() override {
-    network = Network<TestTerminal>::Create(new TestNetworkDelegate());
+    network = Network<TestTerminal>::Create(
+      std::make_unique<TestNetworkDelegate>());
   }
 
   void TearDown() override {}
@@ -31,6 +34,8 @@ struct GenericNetworkTest: ::testing::Test {
 
 
 TEST_F(GenericNetworkTest, Default) {
+
+
 }
 
 }
