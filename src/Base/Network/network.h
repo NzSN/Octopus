@@ -44,15 +44,25 @@ public:
   };
 
   Network() = default;
-  Network(std::unique_ptr<Delegate> const& net): delegate_(std::move(net)) {};
+  Network(std::unique_ptr<Delegate>&& net): delegate_(std::move(net)) {};
 
-  static std::unique_ptr<Network> Create(std::unique_ptr<Delegate> const& impl) {
-    std::unique_ptr<Network> net = std::make_unique<Network>(impl);
-    net->stat_ = impl->Up() ? NetworkStat::UP : NetworkStat::DOWN;
-    return net;
+  static std::unique_ptr<Network> Create(std::unique_ptr<Delegate>&& impl) {
+    std::unique_ptr<Network> network = std::make_unique<Network>(
+      std::move(impl));
+
+    std::optional<N*> terminal = network->AsCoordinator();
+    if (terminal.has_value()) {
+      // Coordinator is spawned so
+      // the network is eligible to
+      // switch to UP state.
+      network->Up();
+    }
+
+    return network;
+
   }
 
-  ~Network() { delegate_->Down(); }
+  ~Network() {}
 
   NetworkStat Stat() {
     return delegate_->IsUp() ? NetworkStat::UP : NetworkStat::DOWN;
@@ -67,14 +77,14 @@ public:
   }
 
   /* There should only a unique Coordinator within a network. */
-  std::optional<N&> AsCoordinator() {
+  std::optional<N*> AsCoordinator() {
     coordinator_ = delegate_->GetTerminal();
-    return coordinator_;
+    return coordinator_.get();
   }
 
   /* Once a worker created it will broadcast to network to search
    * for the address of Coordinator. */
-  std::optional<N&> AsWorker() {
+  std::optional<N*> AsWorker() {
     N entry = delegate_->GetTerminal();
     workers_.push_back(entry);
 

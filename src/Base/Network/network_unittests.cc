@@ -12,9 +12,6 @@ struct TestTerminal {
 };
 
 struct TestNetworkDelegate: public Network<TestTerminal>::Delegate {
-  bool Up() final { return true; };
-  bool Down() final { return true; };
-  bool IsUp() final { return true; }
   std::unique_ptr<TestTerminal> GetTerminal() final {
     return std::make_unique<TestTerminal>();
   };
